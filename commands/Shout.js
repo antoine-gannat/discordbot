@@ -12,7 +12,7 @@ class Shout extends ICommand {
 
 	run(message, args, client) {
 		var userChannel = message.author.lastMessage.member.voiceChannelID;
-		if (!userChannel)
+		if (!userChannel && args[0] !== "-list")
 		{
 			Error.run(message, "Join a channel yo");
 			return;
@@ -23,12 +23,20 @@ class Shout extends ICommand {
 			return;
 		}
 		var soundFile = "";
+		var fileList = "Shout list : \n";
 		fs.readdirSync("./resources/sounds/").forEach(file => {
+			if (args[0] === "-list" && file[0] != '.')
+				fileList += file + "\n";
 			if (soundFile.length === 0 && file === args[0] + ".mp3" || file === args[0] + ".ogg" || file === args[0] + ".wav")
 			{
 				soundFile = "./resources/sounds/" + file;
 			}
 		});
+		if (args[0] === "-list")
+		{
+			message.channel.send(fileList);
+			return;
+		}
 		if (soundFile.length === 0)
 		{
 			var voiceChannel = client.channels.find('id', userChannel);
