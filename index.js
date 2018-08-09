@@ -18,11 +18,13 @@ var Say = require('./commands/Say');
 var Help = require('./commands/Help');
 var Shout = require('./commands/Shout');
 var Sp = require('./commands/Sp');
+var GetIp = require('./commands/GetIp');
 
 commandMap.set(Say.getCommandName(), Say);
 commandMap.set(Help.getCommandName(), Help);
 commandMap.set(Shout.getCommandName(), Shout);
 commandMap.set(Sp.getCommandName(), Sp);
+commandMap.set(GetIp.getCommandName(), GetIp);
 
 client.on("ready", () => {
 	console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels`);
