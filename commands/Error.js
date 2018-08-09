@@ -2,9 +2,12 @@
 
 class Error
 {
-    run(message)
+    run(message, messageContent)
     {
-        message.channel.send("Error m8, don't know what ya mean");
+		if (messageContent.length > 0)
+			message.channel.send(messageContent);
+		else
+	        message.channel.send("Error m8, don't know what ya mean");
     }
 };
 
