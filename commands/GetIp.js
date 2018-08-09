@@ -2,6 +2,7 @@
 "use strict";
 
 var ICommand = require('./ICommand');
+var externalip = require('externalip');
 
 class GetIp extends ICommand {
 	constructor() {
