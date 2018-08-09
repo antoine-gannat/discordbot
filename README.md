@@ -1,5 +1,5 @@
 # discordbot
-A discord bot in node-js
+A discord bot in node-js, full of memes and stuff
 
 #	Installation	#
 
