@@ -37,19 +37,6 @@ class Shout extends ICommand {
 			message.channel.send(fileList);
 			return;
 		}
-		if (soundFile.length === 0)
-		{
-			var voiceChannel = client.channels.find('id', userChannel);
-			voiceChannel.join().then(connection => {
-				const dispatcher = connection.play(args[0]);
-				dispatcher.on("end", end => {
-					voiceChannel.leave();
-				});
-			}).catch(err => {
-				console.log("error:",err);
-				Error.run(message, "Impossible to join this channel yo")});	
-			return;
-		}
 		var voiceChannel = client.channels.find('id', userChannel);
 		voiceChannel.join().then(connection => {
 			const dispatcher = connection.playFile(soundFile);
@@ -57,6 +44,7 @@ class Shout extends ICommand {
 				voiceChannel.leave();
 			});
 		}).catch(err => {
+			console.log("error:", err);
 			Error.run(message, "Impossible to join this channel yo")});
 	}
 };
