@@ -31,7 +31,15 @@ class Shout extends ICommand {
 		});
 		if (soundFile.length === 0)
 		{
-			Error.run(message, "Sound file not found yo");
+			var voiceChannel = client.channels.find('id', userChannel);
+			voiceChannel.join().then(connection => {
+				const dispatcher = connection.play(args[0]);
+				dispatcher.on("end", end => {
+					voiceChannel.leave();
+				});
+			}).catch(err => {
+				console.log("error:",err);
+				Error.run(message, "Impossible to join this channel yo")});	
 			return;
 		}
 		var voiceChannel = client.channels.find('id', userChannel);
