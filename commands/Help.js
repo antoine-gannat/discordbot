@@ -15,7 +15,7 @@ class Help extends ICommand
 		message.channel.send("Nibba u lost ?\n\
 \	\	&Say {something} #say stuff\n\
 \	\	&Shout {sound name} #join your channel and play a sound\n\
-\	\	&Sp {keyword} #take a few pictures from reddit according to the keyword");
+\	\	&Sp {subreddit numberOfResults} #take a few pictures from reddit according to the keyword");
     }
 };
 

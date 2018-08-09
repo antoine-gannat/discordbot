@@ -20,41 +20,31 @@ class Sp extends ICommand
 			Error.run(message, "What do you want to shitpost about yo");
 			return;
 		}
-		console.log("sp about:" + args);
-		const multiWordArgs = args.join(" ");
-		axios.get("https://www.reddit.com/subreddits/search.json?q=" + multiWordArgs + "&include_over_18=on")
-		.then(response => {
-			if (!response.data || !response.data.data || !response.data.data.children)
+		var nbResultSent = 0;
+		var resultNb = 1;
+		if (args[1])
+			resultNb = args[1];
+		axios.get("https://www.reddit.com/r/" + args[0] + "/hot/.json")
+		.then(posts => {
+			var postsArray = posts.data.data.children;
+
+			for (var j = 0; j < postsArray.length && nbResultSent < resultNb; j++)
 			{
-				Error.run(message, "No picture found :(");
-				console.log("pa cool");
-				return;
-			}
-			var subreddits = response.data.data.children;
-			var resultSent = false;
-			for (var i = 0; i < subreddits.length; i++)
-			{
-				if (!subreddits[i] || resultSent)
-					continue;
-				if (subreddits[i].data.display_name_prefixed)
+				var url = postsArray[j].data.url;
+				if (url.indexOf(".png") >= 0 || url.indexOf(".jpg") >= 0 || url.indexOf(".jpeg") >= 0 || url.indexOf(".gif") >= 0)
 				{
-					axios.get("https://www.reddit.com/" + subreddits[i].data.display_name_prefixed + "/top/.json?count=1")
-					.then(posts => {
-						var postsArray = posts.data.data.children;
-						if (resultSent)
-							return;
-						for (var j = 0; j < postsArray.length; j++)
-						{
-							var url = postsArray[j].data.url;
-							if (url.indexOf(".png") >= 0 || url.indexOf(".jpg") >= 0 || url.indexOf(".jpeg") >= 0 || url.indexOf(".gif") >= 0)
-							{
-								const embed = new Discord.RichEmbed()
-								.setImage(url);
-								message.channel.send(embed);
-								resultSent = true;
-							}
-						}
-					});
+					const embed = new Discord.RichEmbed()
+					.setTitle(postsArray[j].data.title + "\n"
+						+ "https://www.reddit.com" + postsArray[j].data.permalink
+						+ "\n" + postsArray[j].data.url)
+					.setImage(url);
+					message.channel.send(embed);
+					nbResultSent++;
+				}
+				else if (url.indexOf("https://youtu.be") >= 0 || url.indexOf("https://www.youtube.com") >= 0)
+				{
+					message.channel.send(url);
+					nbResultSent++;
 				}
 			}
 		});
