@@ -2,7 +2,7 @@
 
 var ICommand = require('./ICommand');
 
-class Shout extends ICommand
+class Say extends ICommand
 {
     constructor()
     {
@@ -10,11 +10,17 @@ class Shout extends ICommand
         this.commandName = "shout";
     }
     
-    run(message, args)
+    run(message, args, client)
     {
-        const sayMessage = args.join(" ");
-        message.channel.send(sayMessage);
+        var voiceChannel = client.channels.find('id', '215094134254469120');
+        voiceChannel.join().then(connection =>
+        {
+           const dispatcher = connection.playFile('./resources/sounds/aintGotTimeForThat.mp3');
+           dispatcher.on("end", end => {
+             voiceChannel.leave();
+             });
+         }).catch(err => console.log(err));
     }
 };
 
-module.exports = new Shout();
+module.exports = new Say();

@@ -10,7 +10,7 @@ class Help extends ICommand
         this.commandName = "help";
     }
     
-    run(message, args)
+    run(message, args, client)
     {
         message.channel.send("Nibba u lost ?");
     }
