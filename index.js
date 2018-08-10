@@ -55,6 +55,7 @@ client.on("message", async message => {
 		// if command is not found, send an error
 		Error.run(message);
 	}
+	message.delete();
 });
 
 client.login(config.token);
