@@ -23,10 +23,9 @@ class Shout extends ICommand {
 			return;
 		}
 		var soundFile = "";
-		var fileList = "Shout list : \n";
+		var fileList = [];
 		fs.readdirSync("./resources/sounds/").forEach(file => {
-			if (args[0] === "-list" && file[0] != '.')
-				fileList += file + "\n";
+			fileList.push(file);
 			if (soundFile.length === 0 && file === args[0] + ".mp3" || file === args[0] + ".ogg" || file === args[0] + ".wav")
 			{
 				soundFile = "./resources/sounds/" + file;
@@ -34,8 +33,13 @@ class Shout extends ICommand {
 		});
 		if (args[0] === "-list")
 		{
-			message.channel.send(fileList);
+			console.log(fileList);
+			message.channel.send("Shout list :\n" + fileList.join("\n"));
 			return;
+		}
+		else if (args[0] === "-r")
+		{
+			soundFile = "./resources/sounds/" + fileList[Math.floor(Math.random() * fileList.length)];
 		}
 		var voiceChannel = client.channels.find('id', userChannel);
 		voiceChannel.join().then(connection => {
