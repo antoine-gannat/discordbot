@@ -25,7 +25,8 @@ class Shout extends ICommand {
 		var soundFile = "";
 		var fileList = [];
 		fs.readdirSync("./resources/sounds/").forEach(file => {
-			fileList.push(file);
+			if (file[0] !== '.')
+				fileList.push(file);
 			if (soundFile.length === 0 && file === args[0] + ".mp3" || file === args[0] + ".ogg" || file === args[0] + ".wav")
 			{
 				soundFile = "./resources/sounds/" + file;
