@@ -33,7 +33,6 @@ class Shout extends ICommand {
 		});
 		if (args[0] === "-list")
 		{
-			console.log(fileList);
 			message.channel.send("Shout list :\n" + fileList.join("\n"));
 			return;
 		}
