@@ -34,11 +34,13 @@ export default class Shout extends ICommand {
 		message.member.voiceChannel
 			.join()
 			.then((connection) => {
-				console.log("playing sound", soundsFolder + sound);
-				const dispatcher = connection.playFile(soundsFolder + sound);
-				dispatcher.on("end", () => {
-					setTimeout(() => message.member.voiceChannel.leave(), 1000);
-				});
+				setTimeout(() => {
+					console.log("playing sound", soundsFolder + sound);
+					const dispatcher = connection.playFile(soundsFolder + sound);
+					dispatcher.on("end", () => {
+						setTimeout(() => message.member.voiceChannel.leave(), 1000);
+					});
+				}, 500);
 			})
 			.catch((err) => {
 				console.log(err);
