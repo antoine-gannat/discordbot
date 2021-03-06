@@ -31,10 +31,10 @@ export default class Shout extends ICommand {
 			sendError(message, "Join a channel yo");
 			return;
 		}
-		console.log("playing sound", sound);
 		message.member.voiceChannel
 			.join()
 			.then((connection) => {
+				console.log("playing sound", soundsFolder + sound);
 				const dispatcher = connection.playFile(soundsFolder + sound);
 				dispatcher.on("end", () => {
 					setTimeout(() => message.member.voiceChannel.leave(), 1000);
