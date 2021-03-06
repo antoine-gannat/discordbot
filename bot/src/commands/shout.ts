@@ -31,6 +31,7 @@ export default class Shout extends ICommand {
 			sendError(message, "Join a channel yo");
 			return;
 		}
+		console.log("playing sound", sound);
 		message.member.voiceChannel
 			.join()
 			.then((connection) => {
