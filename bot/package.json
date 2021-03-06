@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "tsc && cp -rf resources ./dist",
+		"start": "screen dist/index.js",
 		"rebuild": "rimraf dist && npm run build",
 		"watch": "nodemon -e ts --exec \"npm run build-and-run\"",
 		"build-and-run": "npm run build && node dist/index.js || exit 1"
