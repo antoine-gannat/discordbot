@@ -36,7 +36,7 @@ export default class Shout extends ICommand {
 			.then((connection) => {
 				const dispatcher = connection.playFile(soundsFolder + sound);
 				dispatcher.on("end", () => {
-					message.member.voiceChannel.leave();
+					setTimeout(() => message.member.voiceChannel.leave(), 1000);
 				});
 			})
 			.catch((err) => {
