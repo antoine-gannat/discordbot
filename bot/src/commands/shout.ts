@@ -4,7 +4,7 @@ import sendError from "../sendError";
 import fs from "fs";
 import config from "../config";
 
-const soundsFolderName = "sounds/";
+const soundsFolder = config.resourceFolder + "sounds/";
 const supportedSoundExtensions = ["mp3", "ogg", "wav"];
 
 export default class Shout extends ICommand {
@@ -12,7 +12,7 @@ export default class Shout extends ICommand {
 	constructor() {
 		super("shout");
 		// load sound files
-		fs.readdirSync(config.resourceFolder + soundsFolderName).forEach((file) => {
+		fs.readdirSync(soundsFolder).forEach((file) => {
 			const index = file.lastIndexOf(".");
 			// leave that sound if it doesn't have an extension
 			if (index < 0) {
@@ -34,7 +34,7 @@ export default class Shout extends ICommand {
 		message.member.voiceChannel
 			.join()
 			.then((connection) => {
-				const dispatcher = connection.playFile(sound);
+				const dispatcher = connection.playFile(soundsFolder + sound);
 				dispatcher.on("end", () => {
 					message.member.voiceChannel.leave();
 				});
