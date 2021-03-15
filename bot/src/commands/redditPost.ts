@@ -1,7 +1,7 @@
 import { ICommand } from "../commandManager";
 import sendError from "../sendError";
 import axios from "axios";
-import { Message, RichEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 
 const redditUrl = "https://www.reddit.com";
 
@@ -35,7 +35,7 @@ export default class RedditPost extends ICommand {
 
 				const url = data.url;
 				if (imageExtensions.find((ext) => url.indexOf(ext) >= 0)) {
-					const embed = new RichEmbed()
+					const embed = new MessageEmbed()
 						.setTitle(
 							data.title +
 								"\n" +

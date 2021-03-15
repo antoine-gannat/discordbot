@@ -27,20 +27,17 @@ export default class Shout extends ICommand {
 	}
 
 	private playSound(sound: string, message: Message) {
-		if (!message.member.voiceChannel) {
+		if (!message.member.voice.channel) {
 			sendError(message, "Join a channel yo");
 			return;
 		}
-		message.member.voiceChannel
+		message.member.voice.channel
 			.join()
 			.then((connection) => {
-				setTimeout(() => {
-					console.log("playing sound", soundsFolder + sound);
-					const dispatcher = connection.playFile(soundsFolder + sound);
-					dispatcher.on("end", () => {
-						setTimeout(() => message.member.voiceChannel.leave(), 1000);
-					});
-				}, 500);
+				const dispatcher = connection.play(soundsFolder + sound);
+				dispatcher.on("finish", () => {
+					message.member.voice.channel.leave();
+				});
 			})
 			.catch((err) => {
 				console.log(err);
