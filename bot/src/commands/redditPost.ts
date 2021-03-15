@@ -17,7 +17,11 @@ const imageExtensions = [".png", ".jpg", ".jpeg", ".gif"];
 
 export default class RedditPost extends ICommand {
 	constructor() {
-		super("redditpost");
+		super(
+			"redditpost",
+			"Post something from a subreddit.",
+			`\tredditpost [subreddit name] [number of posts (optional)]`
+		);
 	}
 
 	run(message: Message, args: string[]) {

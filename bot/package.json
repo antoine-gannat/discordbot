@@ -8,7 +8,7 @@
 		"start": "screen node dist/index.js",
 		"rebuild": "rimraf dist && npm run build",
 		"watch": "nodemon -e ts --exec \"npm run build-and-run\"",
-		"build-and-run": "npm run build && node dist/index.js || exit 1"
+		"build-and-run": "npm run rebuild && node dist/index.js || exit 1"
 	},
 	"keywords": [],
 	"author": "",
@@ -17,9 +17,11 @@
 		"@discordjs/opus": "^0.4.0",
 		"axios": "^0.18.0",
 		"discord.js": "^12.4.1",
-		"dotenv": "^8.2.0"
+		"dotenv": "^8.2.0",
+		"fluent-ffmpeg": "^2.1.2"
 	},
 	"devDependencies": {
+		"@types/fluent-ffmpeg": "^2.1.16",
 		"@types/node": "^14.14.31",
 		"@types/ws": "^7.4.0",
 		"nodemon": "^1.18.3",

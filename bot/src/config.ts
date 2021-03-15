@@ -9,11 +9,11 @@ interface Config {
 	resourceFolder: string;
 }
 
-const config: Config = {
+export const config: Config = {
 	prefix: "&",
 	token: process.env["DISCORD_BOT_TOKEN"],
-	deleteUserMessages: true,
+	deleteUserMessages: false,
 	resourceFolder: `${__dirname}/resources/`,
 };
 
-export default config;
+export const soundsFolder = config.resourceFolder + "sounds/";

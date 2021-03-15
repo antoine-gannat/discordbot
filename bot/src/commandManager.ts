@@ -1,9 +1,13 @@
 import { Client, Message } from "discord.js";
-import config from "./config";
+import { config } from "./config";
 import sendError from "./sendError";
 
 export abstract class ICommand {
-	constructor(protected _name: string) {}
+	constructor(
+		protected _name: string,
+		protected _description: string,
+		protected _usage?: string
+	) {}
 
 	// run the command
 	public abstract run(message: Message, args: string[], client: Client): void;
@@ -14,6 +18,21 @@ export abstract class ICommand {
 
 	set name(name: string) {
 		this._name = name;
+	}
+
+	get description(): string {
+		return this._description;
+	}
+
+	set description(description: string) {
+		this._description = description;
+	}
+	get usage(): string {
+		return this._usage;
+	}
+
+	set usage(usage: string) {
+		this._usage = usage;
 	}
 }
 

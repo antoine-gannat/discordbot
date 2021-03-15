@@ -2,15 +2,21 @@ import { Message } from "discord.js";
 import { ICommand } from "../commandManager";
 import sendError from "../sendError";
 import fs from "fs";
-import config from "../config";
+import { soundsFolder } from "../config";
 
-const soundsFolder = config.resourceFolder + "sounds/";
-const supportedSoundExtensions = ["mp3", "ogg", "wav"];
+const supportedSoundExtensions = ["mp3", "ogg", "wav", "pcm"];
 
 export default class Shout extends ICommand {
 	private sounds: string[] = [];
 	constructor() {
-		super("shout");
+		super(
+			"shout",
+			"Join a channel an play a sound",
+			`\tshout -r \t Play a random sound\n\tshout [Name of a sound]\t Play a selected sound`
+		);
+	}
+
+	private loadSounds() {
 		// load sound files
 		fs.readdirSync(soundsFolder).forEach((file) => {
 			const index = file.lastIndexOf(".");
@@ -63,6 +69,7 @@ export default class Shout extends ICommand {
 			sendError(message, "What I'm I supposed to shout m8 ?");
 			return;
 		}
+		this.loadSounds();
 		if (args[0] === "-list") {
 			this.listSounds(message);
 			return;

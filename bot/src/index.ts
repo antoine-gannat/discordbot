@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import Discord from "discord.js";
-import config from "./config";
+import { config } from "./config";
 import CommandManager from "./commandManager";
 import commands from "./commands";
 
