@@ -4,8 +4,8 @@ dotenv.config();
 
 import Discord from "discord.js";
 import { config } from "./config";
-import CommandManager from "./commandManager";
 import commands from "./commands";
+import CommandManager from "./commands/commandManager";
 
 const client = new Discord.Client();
 const commandManager = new CommandManager();

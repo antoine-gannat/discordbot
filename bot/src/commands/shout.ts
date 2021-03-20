@@ -1,19 +1,27 @@
 import { Message } from "discord.js";
-import { ICommand } from "../commandManager";
 import sendError from "../sendError";
 import fs from "fs";
 import { soundsFolder } from "../config";
+import { ICommand } from "./ICommand";
 
 const supportedSoundExtensions = ["mp3", "ogg", "wav", "pcm"];
 
 export default class Shout extends ICommand {
 	private sounds: string[] = [];
 	constructor() {
-		super(
-			"shout",
-			"Join a channel an play a sound",
-			`\tshout -r \t Play a random sound\n\tshout [Name of a sound]\t Play a selected sound`
-		);
+		super("shout", "Join a channel an play a sound", [
+			{
+				name: "sound",
+				description:
+					"Name of the sound to play. Play a random sound if not set.",
+				required: false,
+			},
+			{
+				name: "-list",
+				description: "List the sounds available.",
+				required: false,
+			},
+		]);
 	}
 
 	private loadSounds() {
@@ -34,7 +42,7 @@ export default class Shout extends ICommand {
 
 	private playSound(sound: string, message: Message) {
 		if (!message.member.voice.channel) {
-			sendError(message, "Join a channel yo");
+			sendError(message, "Join a channel first.");
 			return;
 		}
 		message.member.voice.channel
@@ -45,14 +53,16 @@ export default class Shout extends ICommand {
 					message.member.voice.channel.leave();
 				});
 			})
-			.catch((err) => {
-				console.log(err);
-				sendError(message, "Impossible to join this channel yo");
+			.catch(() => {
+				sendError(
+					message,
+					"Impossible to join this channel.. Probably not the rights to do so."
+				);
 			});
 	}
 
 	private listSounds(message: Message) {
-		message.channel.send("Shout list :\n" + this.sounds.join("\n"));
+		message.channel.send(`Shout list :\n ${this.sounds.join("\n")}`);
 	}
 
 	private shoutRandomSound(message: Message) {
@@ -65,17 +75,13 @@ export default class Shout extends ICommand {
 	}
 
 	public run(message: Message, args: string[]) {
-		if (args.length === 0) {
-			sendError(message, "What I'm I supposed to shout m8 ?");
+		this.loadSounds();
+		if (!args[0]) {
+			this.shoutRandomSound(message);
 			return;
 		}
-		this.loadSounds();
 		if (args[0] === "-list") {
 			this.listSounds(message);
-			return;
-		}
-		if (args[0] === "-r") {
-			this.shoutRandomSound(message);
 			return;
 		}
 		const sound = this.sounds.find((s) => s.indexOf(args[0]) === 0);

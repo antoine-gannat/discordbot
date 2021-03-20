@@ -1,13 +1,19 @@
 import { Message } from "discord.js";
-import { ICommand } from "../commandManager";
 import sendError from "../sendError";
 import fs from "fs";
 import { soundsFolder } from "../config";
 import ffmpeg from "fluent-ffmpeg";
+import { ICommand } from "./ICommand";
 
 export default class Help extends ICommand {
 	constructor() {
-		super("record", "Record for a few seconds.");
+		super("record", "Record for a few seconds.", [
+			{
+				name: "saveName",
+				description: "Name under which to save the recording.",
+				required: true,
+			},
+		]);
 	}
 
 	run(message: Message, args: string[]) {

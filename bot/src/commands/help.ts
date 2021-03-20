@@ -1,7 +1,6 @@
 import { Message } from "discord.js";
-import { ICommand } from "../commandManager";
 import commands from "./index";
-import { config } from "../config";
+import { ICommand } from "./ICommand";
 
 export default class Help extends ICommand {
 	constructor() {
@@ -9,14 +8,15 @@ export default class Help extends ICommand {
 	}
 
 	run(message: Message) {
-		const helpList = commands
-			.map(
-				(cmd) =>
-					`${config.prefix}${cmd.name}: ${cmd.description}${
-						cmd.usage ? `\n${cmd.usage}\n` : ""
-					}`
-			)
-			.join("\n");
-		message.channel.send(`Nibba u lost ?\n\n${helpList}`);
+		const commandList = commands
+			.map((cmd) => {
+				const firstLine = `**${cmd.name}**: ${cmd.description}`;
+				const argumentList = cmd.args
+					?.map((arg) => `\t**${arg.name}**: ${arg.description}`)
+					.join("\n");
+				return `${firstLine}${argumentList ? `\n${argumentList}` : ""}`;
+			})
+			.join("\n\n");
+		message.channel.send(`Command list: \n${commandList}`);
 	}
 }

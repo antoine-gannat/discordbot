@@ -1,7 +1,7 @@
-import { ICommand } from "../commandManager";
 import sendError from "../sendError";
 import axios from "axios";
 import { Message, MessageEmbed } from "discord.js";
+import { ICommand } from "./ICommand";
 
 const redditUrl = "https://www.reddit.com";
 
@@ -17,11 +17,19 @@ const imageExtensions = [".png", ".jpg", ".jpeg", ".gif"];
 
 export default class RedditPost extends ICommand {
 	constructor() {
-		super(
-			"redditpost",
-			"Post something from a subreddit.",
-			`\tredditpost [subreddit name] [number of posts (optional)]`
-		);
+		super("redditpost", "Post something from a subreddit.", [
+			{
+				name: "sub-reddit",
+				description: "Subreddit from which to fetch the posts.",
+				required: true,
+			},
+			{
+				name: "Number of posts",
+				description: "Number of posts to fetch",
+				required: false,
+				defaultValue: "1",
+			},
+		]);
 	}
 
 	run(message: Message, args: string[]) {
